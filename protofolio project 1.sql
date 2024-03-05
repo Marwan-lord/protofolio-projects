@@ -103,14 +103,14 @@ Select *, (RollingPeopleVaccinated/Population)*100
 From #PercentPopulationVaccinated
 
 
---create view PercentPopulationVaccinated as
---Select dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations
---, SUM(CONVERT(float
---,vac.new_vaccinations)) OVER (Partition by dea.Location Order by dea.location, dea.Date) as RollingPeopleVaccinated
-----, (RollingPeopleVaccinated/population)*100
---From ['covid deathes$'] dea
---Join ['covid vaccinations$'] vac
---	On dea.location = vac.location
---	and dea.date = vac.date
-----where dea.continent is not null 
-----order by 2,3
+create view PercentPopulationVaccinated as
+Select dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations
+, SUM(CONVERT(float
+,vac.new_vaccinations)) OVER (Partition by dea.Location Order by dea.location, dea.Date) as RollingPeopleVaccinated
+, (RollingPeopleVaccinated/population)*100
+From ['covid deathes$'] dea
+Join ['covid vaccinations$'] vac
+	On dea.location = vac.location
+	and dea.date = vac.date
+where dea.continent is not null 
+order by 2,3
